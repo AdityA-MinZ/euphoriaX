@@ -124,9 +124,7 @@
     <div class="container mx-auto px-4 py-6">
         <!-- Back Button -->
         <div class="mb-6">
-            <button onclick="history.back()" class="btn-outline text-sm">
-                ← Back
-            </button>
+            <button onclick="history.back()" class="btn-outline mb-6">← Back to Events</button>
         </div>
 
         <!-- Main Event Info -->
@@ -153,12 +151,11 @@
                 </div>
             </div>
 
-            <!-- Ticket Price -->
+            <!-- DYNAMIC Ticket Price -->
             <div class="flex-shrink-0 text-right">
-                <div class="text-purple-400 text-lg font-bold">₹800</div>
+                <div class="text-purple-400 text-lg font-bold" id="ticketPrice">₹800</div>
                 <div class="text-gray-500 text-sm">per ticket</div>
             </div>
-        </div>
 
         <!-- Booking Section -->
         <div class="grid md:grid-cols-3 gap-6">
@@ -271,34 +268,39 @@
     <!-- Razorpay JS -->
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script>
-        // Ticket type selection
-        const ticketOptions = document.getElementById('ticketOptions');
-        const ticketTypes = ticketOptions.querySelectorAll('label[data-type]');
-        const secondPerson = document.getElementById('secondPerson');
-        const totalAmount = document.getElementById('totalAmount');
+       // Dynamic Ticket Pricing
+const ticketOptions = document.getElementById('ticketOptions');
+const ticketTypes = ticketOptions.querySelectorAll('label[data-type]');
+const secondPerson = document.getElementById('secondPerson');
+const totalAmount = document.getElementById('totalAmount');
+const ticketPrice = document.getElementById('ticketPrice') || totalAmount;
 
-        // Ticket prices (in ₹)
-        const basePrice = 800;
+ticketTypes.forEach(label => {
+    label.addEventListener('click', () => {
+        // Mark selected
+        ticketTypes.forEach(l => l.classList.remove('selected'));
+        label.classList.add('selected');
 
-        ticketTypes.forEach(label => {
-            label.addEventListener('click', () => {
-                // Mark selected
-                ticketTypes.forEach(l => l.classList.remove('selected'));
-                label.classList.add('selected');
+        const type = label.getAttribute('data-type');
+        
+        // DYNAMIC PRICES
+        let price;
+        if (type === 'couple') {
+            price = 1500;  // Couple discount
+            secondPerson.style.display = 'block';
+        } else if (type === 'stag-male') {
+            price = 900;
+            secondPerson.style.display = 'none';
+        } else if (type === 'stag-female') {
+            price = 700;
+            secondPerson.style.display = 'none';
+        }
 
-                const type = label.getAttribute('data-type');
-                let total = basePrice;
+        totalAmount.textContent = `₹${price}`;
+        if (ticketPrice) ticketPrice.textContent = `₹${price}`;
+    });
+});
 
-                if (type === 'couple') {
-                    total = basePrice * 2;
-                    secondPerson.style.display = 'block';
-                } else {
-                    secondPerson.style.display = 'none';
-                }
-
-                totalAmount.textContent = `₹${total}`;
-            });
-        });
 
         // Add handler when user selects any radio (ensure at least one is selected)
         document.querySelectorAll('input[name="ticketType"]').forEach(radio => {
