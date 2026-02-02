@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login / Register | EuphoriaX</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {}
+            }
+        }
+    </script>
+    <style>
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        h1, h2, h3, p, button, input, label, span {
+            font-family: 'Poppins', sans-serif;
+        }
+        :root {
+            --primary: #7c3aed;
+            --primary-dark: #6d28d9;
+            --bg-main: #000000;
+            --bg-secondary: #262626;
+            --bg-card: #111111;
+            --text-primary: #f1f1f1;
+            --text-secondary: #aaa;
+            --accent: #a78bfa;
+        }
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+        .tab {
+            padding: 0.875rem 1rem;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 600;
+            text-align: center;
+        }
+        .tab.active {
+            border-bottom-color: var(--primary);
+            color: var(--text-primary);
+        }
+        .tab.inactive {
+            color: var(--text-secondary);
+        }
+        .form-container {
+            background-color: var(--bg-card);
+            border-radius: 16px;
+            border: 1px solid rgba(124, 58, 237, 0.2);
+            box-shadow: 0 10px 30px rgba(124, 58, 237, 0.2);
+            overflow: hidden;
+        }
+        .input-field {
+            background: var(--bg-secondary);
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            border-radius: 8px;
+            padding: 0.75rem;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            width: 100%;
+        }
+        .input-field:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.2);
+        }
+        .btn-purple {
+            background-color: var(--primary);
+            color: white;
+            transition: all 0.3s ease;
+            border: none;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            width: 100%;
+        }
+        .btn-purple:hover {
+            background-color: var(--primary-dark);
+            box-shadow: 0 0 15px rgba(124, 58, 237, 0.5);
+        }
+        .btn-outline {
+            background: transparent;
+            color: var(--accent);
+            border: 1px solid var(--accent);
+            padding: 0.6rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.9rem;
+            width: 100%;
+            cursor: pointer;
+        }
+        .btn-outline:hover {
+            background-color: rgba(167, 139, 250, 0.1);
+        }
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+        .divider {
+            position: relative;
+            text-align: center;
+            margin: 1.5rem 0;
+            color: var(--text-secondary);
+        }
+        .divider::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background-color: var(--text-secondary);
+            opacity: 0.3;
+        }
+        .divider span {
+            position: relative;
+            background-color: var(--bg-main);
+            padding: 0 0.75rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mx-auto px-4 py-12">
+        <div class="max-w-md mx-auto">
+
+            <!-- Logo + Title -->
+            <div class="text-center mb-8">
+                <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-700 rounded-lg mx-auto flex items-center justify-center">
+                    <span class="text-white font-bold text-2xl">E</span>
+                </div>
+                <h1 class="text-2xl font-bold mt-4">EuphoriaX</h1>
+                <p class="text-gray-400 text-sm">Join the premium event experience</p>
+            </div>
+
+            <!-- Tabs: Login / Register -->
+            <div class="flex mb-6 border-b border-gray-700">
+                <div class="tab active" onclick="showTab('login')">Login</div>
+                <div class="tab inactive" onclick="showTab('register')">Register</div>
+            </div>
+
+            <!-- Form Container -->
+            <div class="form-container">
+                <form id="loginForm" class="p-6">
+                    <h2 class="text-xl font-bold mb-4">Login to Your Account</h2>
+                    
+                    <div class="mb-4">
+                        <label class="block text-gray-400 text-sm mb-2">Email</label>
+                        <input type="email" class="input-field" placeholder="you@example.com" required>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <label class="block text-gray-400 text-sm mb-2">Password</label>
+                        <input type="password" class="input-field" placeholder="••••••••" required>
+                    </div>
+                    
+                    <button type="button" class="btn-purple" onclick="login()">
+                        Login
+                    </button>
+                </form>
+
+                <form id="registerForm" class="p-6 hidden">
+                    <h2 class="text-xl font-bold mb-4">Create Account</h2>
+                    
+                    <div class="mb-4">
+                        <label class="block text-gray-400 text-sm mb-2">Full Name</label>
+                        <input type="text" class="input-field" placeholder="John Doe" required>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-gray-400 text-sm mb-2">Email</label>
+                        <input type="email" class="input-field" placeholder="you@example.com" required>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-gray-400 text-sm mb-2">Phone</label>
+                        <input type="tel" class="input-field" placeholder="+91 9876543210" required>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <label class="block text-gray-400 text-sm mb-2">Password</label>
+                        <input type="password" class="input-field" placeholder="••••••••" minlength="6" required>
+                    </div>
+                    
+                    <button type="button" class="btn-purple" onclick="register()">
+                        Create Account
+                    </button>
+                </form>
+
+                <!-- Divider -->
+                <div class="divider">
+                    <span>Or continue with</span>
+                </div>
+
+                <!-- Social Login -->
+                <div class="p-6 flex flex-col gap-3">
+                    <button class="btn-outline flex items-center justify-center gap-2">
+                        <div class="social-icon bg-white text-black">G</div>
+                        Google
+                    </button>
+                    <button class="btn-outline flex items-center justify-center gap-2">
+                        <div class="social-icon text-white">🪄</div>
+                        Apple / Phone
+                    </button>
+                </div>
+            </div>
+
+            <!-- Footer Link -->
+            <div class="text-center mt-6 text-sm text-gray-500">
+                <span>By continuing, you agree to our </span>
+                <a href="#" class="text-purple-400">Terms</a>
+                <span> and </span>
+                <a href="#" class="text-purple-400">Privacy Policy</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching
+        function showTab(tab) {
+            const loginForm = document.getElementById('loginForm');
+            const registerForm = document.getElementById('registerForm');
+            const tabs = document.querySelectorAll('.tab');
+            
+            if (tab === 'login') {
+                loginForm.classList.remove('hidden');
+                registerForm.classList.add('hidden');
+                tabs[0].classList.remove('inactive');
+                tabs[0].classList.add('active');
+                tabs[1].classList.remove('active');
+                tabs[1].classList.add('inactive');
+            } else {
+                loginForm.classList.add('hidden');
+                registerForm.classList.remove('hidden');
+                tabs[1].classList.remove('inactive');
+                tabs[1].classList.add('active');
+                tabs[0].classList.remove('active');
+                tabs[0].classList.add('inactive');
+            }
+        }
+
+        // Login handler
+        function login() {
+            const email = document.querySelector('#loginForm input[type="email"]').value;
+            const password = document.querySelector('#loginForm input[type="password"]').value;
+
+            if (!email || !password) {
+                alert('Please enter email and password');
+                return;
+            }
+
+            // TODO: Call your backend /api/auth/login here
+            // For now, just redirect back to home
+            alert('Logged in successfully!');
+            if (window.location.search.includes('redirect=events')) {
+                window.location.href = 'index.html#events';
+            } else {
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Register handler
+        function register() {
+            const name = document.querySelector('#registerForm input[type="text"]').value;
+            const email = document.querySelector('#registerForm input[type="email"]').value;
+            const phone = document.querySelector('#registerForm input[type="tel"]').value;
+            const password = document.querySelector('#registerForm input[type="password"]').value;
+
+            if (!name || !email || !phone || !password) {
+                alert('Please fill all fields');
+                return;
+            }
+
+            // TODO: Call your backend /api/auth/register here
+            alert('Account created! Please check your email for verification.');
+            window.location.href = 'login.html';
+        }
+
+        // Show login by default
+        document.addEventListener('DOMContentLoaded', () => {
+            // If URL has #register, show register tab
+            if (window.location.hash === '#register') {
+                showTab('register');
+            } else {
+                showTab('login');
+            }
+        });
+    </script>
+</body>
+</html>

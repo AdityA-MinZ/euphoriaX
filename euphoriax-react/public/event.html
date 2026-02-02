@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event - Book Now | EuphoriaX</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        h1, h2, h3, p, button, input, select, label, span {
+            font-family: 'Poppins', sans-serif;
+        }
+        :root {
+            --primary: #7c3aed;
+            --primary-dark: #6d28d9;
+            --bg-main: #000000;
+            --bg-secondary: #262626;
+            --bg-card: #111111;
+            --text-primary: #f1f1f1;
+            --text-secondary: #aaa;
+            --accent: #a78bfa;
+            --border-gold: #dbd817;
+        }
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+        .btn-purple {
+            background-color: var(--primary);
+            color: white;
+            transition: all 0.3s ease;
+            border: none;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+        }
+        .btn-purple:hover {
+            background-color: var(--primary-dark);
+            box-shadow: 0 0 15px rgba(124, 58, 237, 0.5);
+        }
+        .btn-outline {
+            background-color: transparent;
+            color: var(--accent);
+            border: 1px solid var(--accent);
+            padding: 0.6rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+        .btn-outline:hover {
+            background-color: rgba(167, 139, 250, 0.1);
+        }
+        .card {
+            background-color: var(--bg-card);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(219, 216, 23, 0.3);
+            box-shadow: 0 4px 20px rgba(219, 216, 23, 0.2);
+        }
+        .poster {
+            width: 120px;
+            height: 160px;
+            border-radius: 8px;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .input-field {
+            background: var(--bg-secondary);
+            border: 1px solid rgba(167, 139, 250, 0.3);
+            border-radius: 8px;
+            padding: 0.75rem;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            width: 100%;
+        }
+        .input-field:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.2);
+        }
+        .ticket-type {
+            background: var(--bg-secondary);
+            border: 1px solid transparent;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .ticket-type:hover {
+            background: #1a1a1a;
+        }
+        .ticket-type.selected {
+            background: #1a1a1a;
+            border-color: var(--primary);
+        }
+        .ticket-type-label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+        }
+        .hidden {
+            display: none;
+        }
+        .couple-details {
+            margin-top: 0.5rem;
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mx-auto px-4 py-6">
+        <!-- Back Button -->
+        <div class="mb-6">
+            <button onclick="history.back()" class="btn-outline text-sm">
+                ← Back
+            </button>
+        </div>
+
+        <!-- Main Event Info -->
+        <div class="flex flex-col md:flex-row gap-6 mb-8">
+            <!-- Poster Preview -->
+            <div class="flex-shrink-0">
+                <div class="poster" style="background: linear-gradient(135deg, #6b21a8 0%, #a78bfa 100%);">
+                    <!-- Event specific image or gradient -->
+                </div>
+            </div>
+
+            <!-- Event Title + Short Description -->
+            <div class="flex-1">
+                <h1 class="text-2xl md:text-3xl font-bold text-white mb-2">
+                    Bengaluru Beats - Live DJ
+                </h1>
+                <div class="text-gray-400 text-sm mb-4">
+                    <p>Feel the vibe with the hottest DJs in the city. Techno, EDM, Hip-Hop and Bollywood mixes.</p>
+                    <p>Open bar, surprise sets, and an energetic crowd.</p>
+                </div>
+                <div class="text-gray-500 text-sm">
+                    <p>Crossroads, Fraser St. • Bengaluru</p>
+                    <p>15 Mar, Sat at 9:00 PM</p>
+                </div>
+            </div>
+
+            <!-- Ticket Price -->
+            <div class="flex-shrink-0 text-right">
+                <div class="text-purple-400 text-lg font-bold">₹800</div>
+                <div class="text-gray-500 text-sm">per ticket</div>
+            </div>
+        </div>
+
+        <!-- Booking Section -->
+        <div class="grid md:grid-cols-3 gap-6">
+            <!-- Left: Ticket & Personal Info -->
+            <div class="md:col-span-2">
+                <div class="card p-6">
+                    <h2 class="text-xl font-bold mb-4">Select Ticket Type</h2>
+
+                    <!-- Ticket Type Radios -->
+                    <div class="grid grid-cols-3 gap-2 mb-6" id="ticketOptions">
+                        <label class="ticket-type" data-type="stag-female">
+                            <div class="ticket-type-label">
+                                <input type="radio" name="ticketType" value="Stag Female" required>
+                                Stag (F)
+                            </div>
+                            <div class="text-xs text-gray-500 mt-1">1 Ticket</div>
+                        </label>
+
+                        <label class="ticket-type" data-type="stag-male">
+                            <div class="ticket-type-label">
+                                <input type="radio" name="ticketType" value="Stag Male" required>
+                                Stag (M)
+                            </div>
+                            <div class="text-xs text-gray-500 mt-1">1 Ticket</div>
+                        </label>
+
+                        <label class="ticket-type" data-type="couple">
+                            <div class="ticket-type-label">
+                                <input type="radio" name="ticketType" value="Couple Entry" required>
+                                Couple Entry
+                            </div>
+                            <div class="text-xs text-gray-500 mt-1">2 Tickets</div>
+                        </label>
+                    </div>
+
+                    <!-- Total Amount -->
+                    <div class="flex justify-between items-center py-4 border-b border-gray-700 mb-6">
+                        <div class="text-lg font-bold">Total Amount</div>
+                        <div class="text-lg font-bold text-purple-400" id="totalAmount">₹800</div>
+                    </div>
+
+                    <!-- Form -->
+                    <form id="bookingForm">
+                        <!-- Phone / Email for communication -->
+                        <div class="mb-6">
+                            <h3 class="text-sm font-medium text-gray-400 mb-2">Contact Info (WhatsApp/Email)</h3>
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <input type="text" class="input-field" id="contactPhone" placeholder="Phone Number" required />
+                                <input type="email" class="input-field" id="contactEmail" placeholder="Email" required />
+                            </div>
+                        </div>
+
+                        <!-- Stag / First Person -->
+                        <div class="mb-6" id="firstPerson">
+                            <h3 class="text-sm font-medium text-gray-400 mb-2">Person 1 Details</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <input type="text" class="input-field" name="name1" placeholder="Full Name" required />
+                                <input type="text" class="input-field" name="aadhar1" placeholder="Aadhar Number" required />
+                                <select class="input-field" name="gender1" required>
+                                    <option value="">Gender</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                                <input type="text" class="input-field" name="profession1" placeholder="Profession" required />
+                                <input type="text" class="input-field md:col-span-2" name="residency1" placeholder="Permanent Residency (City, State)" required />
+                            </div>
+                        </div>
+
+                        <!-- Second Person (for Couple) -->
+                        <div class="mb-6 couple-details" id="secondPerson" style="display: none;">
+                            <h3 class="text-sm font-medium text-gray-400 mb-2">Person 2 Details</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <input type="text" class="input-field" name="name2" placeholder="Full Name" />
+                                <input type="text" class="input-field" name="aadhar2" placeholder="Aadhar Number" />
+                                <select class="input-field" name="gender2">
+                                    <option value="">Gender</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                                <input type="text" class="input-field" name="profession2" placeholder="Profession" />
+                                <input type="text" class="input-field md:col-span-2" name="residency2" placeholder="Permanent Residency (City, State)" />
+                            </div>
+                        </div>
+
+                        <!-- Pay Button -->
+                        <button type="button" class="btn-purple w-full" onclick="openRazorpay()">
+                            🛍️ Pay via Razorpay
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Right: Information -->
+            <div class="md:col-span-1">
+                <div class="card p-6">
+                    <h2 class="text-xl font-bold mb-4">Important</h2>
+                    <ul class="text-sm text-gray-400 space-y-2">
+                        <li>• Entry by invitation only</li>
+                        <li>• Strict age: 21+</li>
+                        <li>• No duplicate/invalid Aadhar</li>
+                        <li>• No re-entry</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Razorpay JS -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+        // Ticket type selection
+        const ticketOptions = document.getElementById('ticketOptions');
+        const ticketTypes = ticketOptions.querySelectorAll('label[data-type]');
+        const secondPerson = document.getElementById('secondPerson');
+        const totalAmount = document.getElementById('totalAmount');
+
+        // Ticket prices (in ₹)
+        const basePrice = 800;
+
+        ticketTypes.forEach(label => {
+            label.addEventListener('click', () => {
+                // Mark selected
+                ticketTypes.forEach(l => l.classList.remove('selected'));
+                label.classList.add('selected');
+
+                const type = label.getAttribute('data-type');
+                let total = basePrice;
+
+                if (type === 'couple') {
+                    total = basePrice * 2;
+                    secondPerson.style.display = 'block';
+                } else {
+                    secondPerson.style.display = 'none';
+                }
+
+                totalAmount.textContent = `₹${total}`;
+            });
+        });
+
+        // Add handler when user selects any radio (ensure at least one is selected)
+        document.querySelectorAll('input[name="ticketType"]').forEach(radio => {
+            radio.addEventListener('change', () => {
+                // Ensure it gets selected class
+                const label = radio.closest('label');
+                ticketTypes.forEach(l => l.classList.remove('selected'));
+                label.classList.add('selected');
+            });
+        });
+
+        // Function to open Razorpay (you’d call your backend)
+        function openRazorpay() {
+            const form = document.getElementById('bookingForm');
+            const formData = new FormData(form);
+
+            const ticketType = formData.get('ticketType');
+            if (!ticketType) {
+                alert('Please select a ticket type (Stag Female / Stag Male / Couple Entry)');
+                return;
+            }
+
+            const name1 = formData.get('name1');
+            const aadhar1 = formData.get('aadhar1');
+            const gender1 = formData.get('gender1');
+            const profession1 = formData.get('profession1');
+            const residency1 = formData.get('residency1');
+
+            const name2 = formData.get('name2');
+            const aadhar2 = formData.get('aadhar2');
+            const gender2 = formData.get('gender2');
+            const profession2 = formData.get('profession2');
+            const residency2 = formData.get('residency2');
+
+            // Validate required fields (Person 1)
+            if (!name1 || !aadhar1 || !gender1 || !profession1 || !residency1) {
+                alert('Please fill all details for Person 1');
+                return;
+            }
+
+            // Validate for Couple
+            if (ticketType === 'Couple Entry') {
+                if (!name2 || !aadhar2 || !gender2 || !profession2 || !residency2) {
+                    alert('For Couple Entry, please fill details for Person 2');
+                    return;
+                }
+            }
+
+            // Build event data (for your backend / Razorpay call)
+            const eventData = {
+                eventId: 'EVT123',
+                eventName: 'Bengaluru Beats - Live DJ',
+                venue: 'Crossroads, Fraser St. • Bengaluru',
+                tickets: ticketType === 'Couple Entry' ? 2 : 1,
+                ticketType: ticketType,
+                amount: ticketType === 'Couple Entry' ? 1600 : 800,
+                contact: {
+                    phone: formData.get('contactPhone'),
+                    email: formData.get('contactEmail')
+                },
+                person1: {
+                    name: name1,
+                    aadhar: aadhar1,
+                    gender: gender1,
+                    profession: profession1,
+                    residency: residency1
+                },
+                person2: ticketType === 'Couple Entry' ? {
+                    name: name2,
+                    aadhar: aadhar2,
+                    gender: gender2,
+                    profession: profession2,
+                    residency: residency2
+                } : null
+            };
+
+            // In your backend, call:
+            // 1. /api/create-order with amount (in paise)
+            // 2. Open Razorpay checkout
+            // 3. On success, save to DB with Aadhar, gender, etc.
+
+            console.log('Booking data:', eventData);
+            alert('Proceeding to payment... (In your app, this will open Razorpay modal)');
+            // In real code, call payWithRazorpay(eventData);
+        }
+    </script>
+</body>
+</html>
