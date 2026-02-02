@@ -1,6 +1,7 @@
 import { Routes, Route, Link } from "react-router-dom"
 import About from "./pages/About"
 import Contact from "./pages/Contact"
+import EventsIframe from './pages/EventsIframe'
 
 function App() {
   return (
@@ -12,7 +13,7 @@ function App() {
       </nav>
       
       <Routes>
-        <Route path="/" element={<div>Your events iframe content here</div>} />
+        <Route path="/" element={<EventsIframe />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
       </Routes>
