@@ -1,22 +1,33 @@
-import { Routes, Route, Link } from "react-router-dom"
-import About from "./pages/About"
-import Contact from "./pages/Contact"
-import EventsIframe from './pages/EventsIframe'
-
 function App() {
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#000', color: 'white' }}>
-      <nav style={{ padding: '1rem', background: '#111', borderBottom: '1px solid #7c3aed' }}>
-        <Link to="/" style={{ marginRight: '1rem', color: '#7c3aed' }}>Events</Link>
-        <Link to="/about" style={{ marginRight: '1rem', color: 'white' }}>About</Link>
-        <Link to="/contact" style={{ color: 'white' }}>Contact</Link>
-      </nav>
-      
-      <Routes>
-        <Route path="/" element={<EventsIframe />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/contact" element={<Contact />} />
-      </Routes>
+    <div 
+      style={{ 
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100vw', 
+        height: '100vh', 
+        margin: 0, 
+        padding: 0,
+        overflow: 'hidden',
+        backgroundColor: '#000000',
+        border: 'none'
+      }}
+    >
+      <iframe 
+        src="/index.html" 
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100vw', 
+          height: '100vh', 
+          border: 'none',
+          margin: 0,
+          padding: 0
+        }}
+        title="EuphoriaX Events"
+      />
     </div>
   )
 }
