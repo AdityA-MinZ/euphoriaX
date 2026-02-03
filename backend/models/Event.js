@@ -1,77 +1,41 @@
 const mongoose = require('mongoose');
 
-const eventSchema = new mongoose.Schema({
-  name: {
+const EventSchema = new mongoose.Schema({
+  id: {
     type: String,
     required: true,
-    trim: true,
+    unique: true,
+    trim: true 
+  }, // This is for 'dj-night', 'pool-party' etc.
+  title: {
+    type: String,
+    required: [true, 'Please add a title']
   },
-  description: {
+  desc: {
     type: String,
-    required: true,
+    required: [true, 'Please add a description']
   },
   venue: {
     type: String,
-    required: true,
-  },
-  city: {
-    type: String,
-    required: true,
-    enum: ['Delhi', 'Bengaluru'],
+    required: true
   },
   date: {
-    type: Date,
-    required: true,
-  },
-  time: {
     type: String,
-    required: true,
+    required: true
   },
-  category: {
+  image: {
     type: String,
-    required: true,
-    enum: ['DJ Night', 'Live Gig', 'Pool Party', 'Club Night', 'Concert'],
+    required: true
   },
-  poster: {
-    type: String,
-    default: '',
-  },
-  pricing: {
-    stagFemale: {
-      type: Number,
-      required: true,
-    },
-    stagMale: {
-      type: Number,
-      required: true,
-    },
-    couple: {
-      type: Number,
-      required: true,
-    },
-  },
-  totalTickets: {
-    type: Number,
-    required: true,
-    default: 500,
-  },
-  bookedTickets: {
-    type: Number,
-    default: 0,
-  },
-  status: {
-    type: String,
-    enum: ['upcoming', 'ongoing', 'completed', 'cancelled'],
-    default: 'upcoming',
-  },
-  createdBy: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+  prices: {
+    stagF: { type: Number, required: true },
+    stagM: { type: Number, required: true },
+    couple: { type: Number, required: true }
   },
   createdAt: {
     type: Date,
-    default: Date.now,
-  },
+    default: Date.now
+  }
 });
 
-module.exports = mongoose.model('Event', eventSchema);
+module.exports = mongoose.model('Event', EventSchema);

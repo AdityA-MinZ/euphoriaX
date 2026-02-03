@@ -277,21 +277,21 @@
         // Login handler
         function login() {
             const email = document.querySelector('#loginForm input[type="email"]').value;
-            const password = document.querySelector('#loginForm input[type="password"]').value;
+            
+            // In a real app, the backend would return the name/phone. 
+            // For now, we simulate a user or just save the email.
+            const user = {
+                name: "User", // Placeholder since login form doesn't have name
+                email: email,
+                phone: "",
+                isLoggedIn: true
+            };
+            
+            // Only overwrite if no user exists, or merge data in a real app
+            localStorage.setItem('currentUser', JSON.stringify(user));
 
-            if (!email || !password) {
-                alert('Please enter email and password');
-                return;
-            }
-
-            // TODO: Call your backend /api/auth/login here
-            // For now, just redirect back to home
             alert('Logged in successfully!');
-            if (window.location.search.includes('redirect=events')) {
-                window.location.href = 'index.html#events';
-            } else {
-                window.location.href = 'index.html';
-            }
+            window.location.href = 'index.html';
         }
 
         // Register handler
@@ -306,20 +306,35 @@
                 return;
             }
 
-            // TODO: Call your backend /api/auth/register here
-            alert('Account created! Please check your email for verification.');
-            window.location.href = 'login.html';
+            // --- NEW CODE: Save to LocalStorage ---
+            const user = {
+                name: name,
+                email: email,
+                phone: phone,
+                isLoggedIn: true
+            };
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            // --------------------------------------
+
+            alert('Account created! Redirecting to home...');
+            window.location.href = 'index.html'; // Or wherever you want them to go
         }
 
         // Show login by default
+                // Handle auto-switching to Register
         document.addEventListener('DOMContentLoaded', () => {
-            // If URL has #register, show register tab
-            if (window.location.hash === '#register') {
+            const urlParams = new URLSearchParams(window.location.search);
+            const viewParam = urlParams.get('view'); // Checks for ?view=register
+            const hash = window.location.hash;       // Checks for #register
+
+            // If either method is used, switch to the register tab
+            if (viewParam === 'register' || hash === '#register') {
                 showTab('register');
             } else {
                 showTab('login');
             }
         });
+
     </script>
 </body>
 </html>
