@@ -193,7 +193,7 @@
 
             try {
                 // 1. FETCH DATA FROM YOUR BACKEND
-                const response = await fetch(`http://localhost:5000/api/events/${eventId}`);
+                const response = await fetch(`http://localhost:3000/api/events/${eventId}`);
                 const result = await response.json();
 
                 if (!result.success) throw new Error(result.message || "Event not found");
@@ -208,6 +208,9 @@
                 
                 // Handle Image
                 document.getElementById('eventPoster').style.backgroundImage = `url('${event.image}')`;
+                document.getElementById('eventPoster').style.backgroundSize = "cover"; // Ensures it fills the box
+                document.getElementById('eventPoster').style.backgroundPosition = "center";
+
                 
                 // 3. Update Price Logic
                 currentEventPrices = event.prices;

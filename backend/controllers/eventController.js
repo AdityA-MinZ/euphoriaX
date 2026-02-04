@@ -8,12 +8,12 @@ const seedEvents = async (req, res, next) => {
 
     const events = [
       {
-        id: 'dj-night',
-        title: "After Glow - Bengaluru Beats",
+        id: 'after-glow',
+        title: "After Glow Party",
         desc: "Experience the ultimate techno and Bollywood fusion with DJ Zahir. Neon vibes, open bar, and non-stop beats.",
         venue: "Crossroads, Fraser St. • Bengaluru",
         date: "Tomorrow • 08:00 PM",
-        image: "images/dj-poster.jpg",
+        image: "images/after_glow.jpg",
         prices: { stagF: 700, stagM: 1000, couple: 1500 }
       },
       {
